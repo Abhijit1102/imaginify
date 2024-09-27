@@ -2,7 +2,7 @@ import mongoose, { Mongoose } from 'mongoose';
 
 const MONGODB_URL = process.env.MONGODB_URL;
 
-let connection: { conn: Mongoose | null; promise: Promise<Mongoose> | null } = {
+const  connection: { conn: Mongoose | null; promise: Promise<Mongoose> | null } = {
   conn: null,
   promise: null,
 };
