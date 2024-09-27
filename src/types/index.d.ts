@@ -51,7 +51,7 @@ declare type CreateUserParams = {
       transformationType: string;
       width: number;
       height: number;
-      config: any;
+      config: string;
       secureURL: string;
       transformationURL: string;
       aspectRatio: string | undefined;
