@@ -17,6 +17,11 @@ declare type CreateUserParams = {
     photo: string;
   };
   
+  type ConfigType = {
+    key1: string;
+    key2: number;
+    // Add more properties based on the structure
+  };
   // ====== IMAGE PARAMS
   declare type AddImageParams = {
     image: {
@@ -25,7 +30,9 @@ declare type CreateUserParams = {
       transformationType: string;
       width: number;
       height: number;
-      config: any;
+      config: {
+        config: ConfigType; 
+      };
       secureURL: string;
       transformationURL: string;
       aspectRatio: string | undefined;
@@ -127,8 +134,16 @@ declare type CreateUserParams = {
     config?: Transformations | null;
   };
   
+  interface ImageDetails {
+    _id: string;
+    title: string;
+    publicId: string;
+    transformationType: string;
+    // Add other relevant fields as needed
+  }
+  
   declare type TransformedImageProps = {
-    image: any;
+    image: ImageDetails;
     type: string;
     title: string;
     transformationConfig: Transformations | null;
@@ -136,3 +151,4 @@ declare type CreateUserParams = {
     hasDownload?: boolean;
     setIsTransforming?: React.Dispatch<React.SetStateAction<boolean>>;
   };
+  
