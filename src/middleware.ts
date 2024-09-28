@@ -6,7 +6,7 @@ export default clerkMiddleware((auth, req) => {
   if (isWebhookRoute(req)) {
     return; 
   }
-  auth().protect();
+  
 });
 
 export const config = {
