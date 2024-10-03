@@ -1,32 +1,36 @@
-import Header from "@/components/shared/Header";
-import TransformationForm from "@/components/shared/TransformationForm";
-import { transformationTypes } from "@/constants";
-import { getUserById } from "@/lib/actions/user.action";
-import { auth } from "@clerk/nextjs/server";
-const AddTransformationTypePage = async ({ params : 
-  { type }} : SearchParamProps
-) => {
-  const { userId } = auth();
-  const transformation = transformationTypes[type];
+import Header from '@/components/shared/Header';
+import TransformationForm from '@/components/shared/TransformationForm';
+import { transformationTypes } from '@/constants';
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 
-  const user = await getUserById(userId);
-  if (!user) {
-    console.log(error)
-  }
+const AddTransformationTypePage = async ({ params: { type } }) => {
+    const session = await getServerSession(authOptions);
+    console.log("session: ", session);
+    const user = session?.user;
+
+    // Check if the transformation type exists
+    const transformation = transformationTypes[type];
+    
+    if (!transformation) {
+        return <div>Error: Transformation type not found.</div>;
+    }
+
     return (
-      <>
-         <Header
-            title={transformation.title}
-            subtitle={transformation.subTitle}
-        />
-        <TransformationForm
-          action="Add"
-          userId={user._id}
-          type={transformation.type as TransformationTypeKey}
-          creditBalance={user.creditBalance}
-         />
-      </>  
+        <>
+            <Header title={transformation.title} 
+            subtitle={transformation.subTitle} 
+            />
+            <section className="mt-10">
+                <TransformationForm 
+                action="Add"
+                userId={user}
+                type={transformation.type as TransformationTypeKey}
+                creditBalance={user}
+                />
+            </section>    
+        </>
     );
-}
+};
 
 export default AddTransformationTypePage;

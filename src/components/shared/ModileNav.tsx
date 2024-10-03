@@ -8,7 +8,10 @@ import {
 
 import  Link  from 'next/link';
 import  Image from 'next/image';
-import { SignedIn, UserButton, SignedOut } from '@clerk/nextjs';
+import  SignedIn  from "@/components/shared/Button/SingnedIn";
+import  SignedOut from "@/components/shared/Button/SingnedOut";
+import  UserButton  from "@/components/shared/Button/UserButton";
+
 import { navLinks } from '@/constants/index';
 import { usePathname } from 'next/navigation';
 import { Button } from "../ui/button";
@@ -29,8 +32,6 @@ const ModileNav = () => {
         <nav className="flex gap-2">
             <SignedIn>
             <UserButton
-                afterSwitchSessionUrl="/"
-                showName
             />
             <Sheet>
             <SheetTrigger>

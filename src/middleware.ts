@@ -1,17 +1,12 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { NextResponse, NextRequest } from 'next/server';
 
-const isWebhookRoute = createRouteMatcher(['/api/webhook/clerk']);
-
-export default clerkMiddleware((auth, req) => {
-  if (isWebhookRoute(req)) {
-    return; 
-  }
-  
-});
+export async function middleware(request: NextRequest) {
+  // Allow all requests to pass through
+  return NextResponse.next();
+}
 
 export const config = {
   matcher: [
-    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
+    '/((?!_next/static|_next/image|favicon.ico).*)', // Match all routes excluding static files
   ],
 };

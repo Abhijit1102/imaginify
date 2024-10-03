@@ -1,24 +1,24 @@
-import mongoose, { Mongoose } from 'mongoose';
+import mongoose from 'mongoose';
 
-const MONGODB_URL = process.env.MONGODB_URL;
-
-const  connection: { conn: Mongoose | null; promise: Promise<Mongoose> | null } = {
-  conn: null,
-  promise: null,
+console.log(process.env.MONGODB_URL)
+type ConnectionObject = {
+  isConnected?: number;
 };
 
-export const connectToDatabase = async () => {
-  if (connection.conn) return connection.conn;
+const connection: ConnectionObject = {};
 
-  if (!MONGODB_URL) throw new Error('Missing MONGODB_URL');
-
-  if (!connection.promise) {
-    connection.promise = mongoose.connect(MONGODB_URL, {
-      dbName: 'imaginify',
-      bufferCommands: false,
-    });
+export async function connectToDatabase(): Promise<void> {
+  if (connection.isConnected) {
+    return;
   }
 
-  connection.conn = await connection.promise;
-  return connection.conn;
-};
+  try {
+    const db = await mongoose.connect(process.env.MONGODB_URL || '', {});
+    connection.isConnected = db.connections[0].readyState;
+    console.log('Database connected successfully');
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    process.exit(1);
+  }
+}
+
